@@ -5,10 +5,7 @@ import ChatSr from "./components/ChatSr";
 
 export default function App() {
   return (
-    <div
-      className="min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('/west65.jpg')" }}
-    >
+    <div className="min-h-screen flex items-center justify-center overflow-hidden bg-[#2c2d30]">
       <div className="z-10 w-full">
         <BrowserRouter>
           <Routes>
