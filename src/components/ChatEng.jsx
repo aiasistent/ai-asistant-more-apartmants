@@ -20,7 +20,7 @@ export default function ChatEn() {
   return (
     <div className="max-w-lg mt-5 mb-5 mx-auto bg-[#e2af41] rounded-2xl shadow-xl p-6 border border-gray-200 transition-all duration-500 hover:shadow-gray-600 hover:-translate-y-1">
       <h1 className="text-center text-3xl font-bold mb-4 text-[#2c2d30] tracking-wide">
-        AI Apartment Assist
+        AI Apartment Assistant
       </h1>
 
       <div className="relative h-100 overflow-y-auto p-4 border border-gray-300 rounded-lg bg-[#2c2d30]">
