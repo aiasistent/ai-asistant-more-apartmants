@@ -1,20 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LanguageSelect from "./components/LanguageSelect";
-import ChatEn from "./components/ChatEng";
-import ChatSr from "./components/ChatSr";
+import SelectApartment from "./pages/SelectApartment";
+import ApartmentChat from "./pages/ApartmentChat";
 
 export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center overflow-hidden bg-[#2c2d30]">
-      <div className="z-10 w-full">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LanguageSelect />} />
-            <Route path="/chat-sr" element={<ChatSr />} />
-            <Route path="/chat-en" element={<ChatEn />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SelectApartment />} />
+        <Route path="/apartment/:id" element={<ApartmentChat />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
