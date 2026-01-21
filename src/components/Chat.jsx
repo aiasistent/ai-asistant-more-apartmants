@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { askApartmentAI } from "../api/openai";
 
 export default function Chat({ apartment, lang }) {
-  const apartmentInfo = apartment.info[lang];
-  const backgroundImage = apartment.images[lang];
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+
+  const apartmentInfo = apartment.info[lang];
+  const backgroundImage = apartment.images[lang];
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -14,9 +13,19 @@ export default function Chat({ apartment, lang }) {
     setMessages((prev) => [...prev, { role: "user", text: input }]);
     setInput("");
 
-    const aiReply = await askApartmentAI(input, apartmentInfo);
-    const assistantMessage = { role: "assistant", text: aiReply };
-    setMessages((prev) => [...prev, assistantMessage]);
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: input,
+        apartmentInfo: apartmentInfo,
+        lang,
+      }),
+    });
+
+    const data = await res.json();
+
+    setMessages((prev) => [...prev, { role: "assistant", text: data.reply }]);
   };
 
   return (
@@ -44,8 +53,8 @@ export default function Chat({ apartment, lang }) {
                       ? "Gost:"
                       : "Guest:"
                     : lang === "sr"
-                    ? "Asistent:"
-                    : "Assistant:"}
+                      ? "Asistent:"
+                      : "Assistant:"}
                 </b>{" "}
                 {m.text}
               </p>
