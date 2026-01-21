@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Chat({ apartment, lang }) {
   const [messages, setMessages] = useState([]);
@@ -6,6 +6,11 @@ export default function Chat({ apartment, lang }) {
 
   const apartmentInfo = apartment.info[lang];
   const backgroundImage = apartment.images[lang];
+
+  useEffect(() => {
+    setMessages([]);
+    setInput("");
+  }, [lang]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
