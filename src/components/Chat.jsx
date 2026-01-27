@@ -71,7 +71,7 @@ export default function Chat({ apartment, lang }) {
         className="relative h-100 overflow-y-auto p-4 border border-gray-300 rounded-lg bg-cover bg-center transition-all duration-500"
       >
         {messages.length > 0 && (
-          <div className="bg-white/60 rounded-lg p-2">
+          <div className="bg-white/80 rounded-lg p-2">
             {messages.map((m, i) => (
               <p
                 key={i}
@@ -93,7 +93,7 @@ export default function Chat({ apartment, lang }) {
             ))}
 
             {isTyping && (
-              <p className="text-sm text-gray-700 italic mt-2">
+              <p className="text-sm text-gray-900 italic mt-2">
                 {lang === "sr" ? "Asistent kuca..." : "Assistant is typing..."}
               </p>
             )}
