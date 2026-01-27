@@ -1,3 +1,6 @@
+import "country-flag-icons/react/3x2";
+import { RS, GB } from "country-flag-icons/react/3x2";
+
 export default function LanguageSwitch({ lang, setLang }) {
   return (
     <div className="flex justify-center gap-4 pt-6">
@@ -7,7 +10,7 @@ export default function LanguageSwitch({ lang, setLang }) {
           lang === "sr" ? "bg-white text-black" : "bg-gray-700 text-white"
         }`}
       >
-        SR
+        SR <RS title="Serbia" className="w-8 h-6 " />
       </button>
 
       <button
@@ -16,7 +19,7 @@ export default function LanguageSwitch({ lang, setLang }) {
           lang === "en" ? "bg-white text-black" : "bg-gray-700 text-white"
         }`}
       >
-        EN
+        EN <GB title="United Kingdom" className="w-8 h-6" />
       </button>
     </div>
   );
