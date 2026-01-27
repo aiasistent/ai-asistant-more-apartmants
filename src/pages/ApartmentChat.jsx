@@ -15,7 +15,7 @@ export default function ApartmentChat() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div>
       <LanguageSwitch lang={lang} setLang={setLang} />
       <Chat apartment={apartment} lang={lang} />
     </div>

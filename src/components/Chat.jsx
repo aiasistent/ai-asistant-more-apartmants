@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Chat({ apartment, lang }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const bottomRef = useRef(null);
 
   const apartmentInfo = apartment.info[lang];
   const backgroundImage = apartment.images[lang];
@@ -12,25 +14,50 @@ export default function Chat({ apartment, lang }) {
     setInput("");
   }, [lang]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isTyping]);
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     setMessages((prev) => [...prev, { role: "user", text: input }]);
     setInput("");
+    setIsTyping(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: input,
-        apartmentInfo: apartmentInfo,
-        lang,
-      }),
-    });
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: input,
+          apartmentInfo: apartmentInfo,
+          lang,
+        }),
+      });
 
-    const data = await res.json();
+      if (!res.ok) {
+        throw new Error("API error");
+      }
 
-    setMessages((prev) => [...prev, { role: "assistant", text: data.reply }]);
+      const data = await res.json();
+
+      setMessages((prev) => [...prev, { role: "assistant", text: data.reply }]);
+    } catch (error) {
+      console.error(error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text:
+            lang === "sr"
+              ? "Došlo je do greške. Pokušajte ponovo."
+              : "Something went wrong. Please try again.",
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -64,6 +91,14 @@ export default function Chat({ apartment, lang }) {
                 {m.text}
               </p>
             ))}
+
+            {isTyping && (
+              <p className="text-sm text-gray-700 italic mt-2">
+                {lang === "sr" ? "Asistent kuca..." : "Assistant is typing..."}
+              </p>
+            )}
+
+            <div ref={bottomRef} />
           </div>
         )}
       </div>
@@ -72,6 +107,7 @@ export default function Chat({ apartment, lang }) {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder={
             lang === "sr" ? "Kako vam mogu pomoći?" : "How can I help you?"
           }
@@ -79,7 +115,7 @@ export default function Chat({ apartment, lang }) {
         />
         <button
           onClick={sendMessage}
-          className="bg-[#2c2d30] text-white px-4 py-2 rounded-lg"
+          className="bg-[#2c2d30] text-white px-4 py-2 rounded-lg hover:bg-[#38393d] hover:shadow-lg active:scale-95 transition-all duration-200"
         >
           {lang === "sr" ? "Pošalji" : "Send"}
         </button>
