@@ -19,7 +19,10 @@ export default async function handler(req, res) {
             role: "system",
             content: `
 Ti si AI asistent za apartman.
-Jezik: ${lang}
+Jezik: ${lang}.
+Detektuj jezik na kojem je postavljeno pitanje i odgovori na tom jeziku.
+Ako te pitaju na nekom drugom jeziku odgovori na tom jeziku na kojem je pitanje.
+Nemoj da mešaš jezike, da pitanje bude na jednom jeziku, a odgovor na drugom.
 Informacije:
 ${apartmentInfo}
             `,
