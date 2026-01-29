@@ -6,8 +6,8 @@ export default function Chat({ apartment }) {
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef(null);
 
-  const apartmentInfo = apartment.info[lang];
-  const backgroundImage = apartment.images[lang];
+  const apartmentInfo = apartment.info;
+  const backgroundImage = apartment.images;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
