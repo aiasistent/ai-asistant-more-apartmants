@@ -52,7 +52,7 @@ export default function Chat({ apartment }) {
   };
 
   return (
-    <div className="max-w-lg mt-5 mb-5 mx-auto bg-[#0D1B2A] rounded-2xl shadow-xl p-6">
+    <div className="max-w-lg mb-5 mx-auto bg-[#0D1B2A] rounded-2xl shadow-xl p-6">
       <h1 className="text-center text-3xl font-bold mb-2 text-white tracking-wide">
         {apartment.name}
       </h1>

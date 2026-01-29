@@ -11,7 +11,7 @@ export default function ApartmentChat() {
   }
 
   return (
-    <div>
+    <div className="pt-5">
       <Chat apartment={apartment} />
     </div>
   );
