@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Chat({ apartment, lang }) {
+export default function Chat({ apartment }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -8,11 +8,6 @@ export default function Chat({ apartment, lang }) {
 
   const apartmentInfo = apartment.info[lang];
   const backgroundImage = apartment.images[lang];
-
-  useEffect(() => {
-    setMessages([]);
-    setInput("");
-  }, [lang]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -32,7 +27,6 @@ export default function Chat({ apartment, lang }) {
         body: JSON.stringify({
           message: input,
           apartmentInfo: apartmentInfo,
-          lang,
         }),
       });
 
@@ -49,10 +43,7 @@ export default function Chat({ apartment, lang }) {
         ...prev,
         {
           role: "assistant",
-          text:
-            lang === "sr"
-              ? "Došlo je do greške. Pokušajte ponovo."
-              : "Something went wrong. Please try again.",
+          text: "Something went wrong. Please try again.",
         },
       ]);
     } finally {
@@ -66,7 +57,7 @@ export default function Chat({ apartment, lang }) {
         {apartment.name}
       </h1>
       <h1 className="text-center text-3xl font-bold mb-4 text-[#ffffff] tracking-wide">
-        {lang === "sr" ? "AI Asistent Apartmana" : "AI Apartment Assistant"}
+        AI Apartment Assistant
       </h1>
 
       <div
@@ -82,22 +73,13 @@ export default function Chat({ apartment, lang }) {
                   m.role === "user" ? "text-right" : "text-left"
                 }`}
               >
-                <b>
-                  {m.role === "user"
-                    ? lang === "sr"
-                      ? "Gost:"
-                      : "Guest:"
-                    : lang === "sr"
-                      ? "Asistent:"
-                      : "Assistant:"}
-                </b>{" "}
-                {m.text}
+                <b>{m.role === "user" ? "Guest:" : "Assistant:"}</b> {m.text}
               </p>
             ))}
 
             {isTyping && (
               <p className="text-sm text-gray-900 italic mt-2">
-                {lang === "sr" ? "Asistent kuca..." : "Assistant is typing..."}
+                Assistant is typing...
               </p>
             )}
 
@@ -111,16 +93,14 @@ export default function Chat({ apartment, lang }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder={
-            lang === "sr" ? "Kako vam mogu pomoći?" : "How can I help you?"
-          }
+          placeholder="How can I help you?"
           className="flex-grow rounded-lg p-2 bg-[#2c2d30] text-white"
         />
         <button
           onClick={sendMessage}
           className="bg-[#2c2d30] text-white px-4 py-2 rounded-lg hover:bg-[#38393d] hover:shadow-lg active:scale-95 transition-all duration-200"
         >
-          {lang === "sr" ? "Pošalji" : "Send"}
+          Send
         </button>
       </div>
     </div>
